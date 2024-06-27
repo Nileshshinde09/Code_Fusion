@@ -45,7 +45,7 @@ const MITSUKEYOU_PASSWORD = 'boy'
 const GYAKKO_PASSWORD = 'stackoverflow'
 const CODOTESUTA_PASSWORD='triangle'
 const FINALPASSWORD='nick1234'
-const QUIZZURL='https://medium.com/@nileshshindeofficial'
+const QUIZZURL='https://quizizz.com/pro/join'
 const POINTS_FOR_TASKS=5
 const FUSION_AUTH_STORE = new Map([
   ["CodeWarriors", "aB1@xaB1@x"],
