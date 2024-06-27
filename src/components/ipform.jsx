@@ -13,11 +13,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { DEKODOSURU_PASSWORD, FUSION_AUTH_STORE, TASK_ENUM } from "@/constants";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Badge } from "./ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { StoreState } from "@/services";
+import { TASK_ENUM } from "@/constants";
 
 const FormSchema = z.object({
   ans: z.string().min(2, {
@@ -30,15 +29,29 @@ const useLocalIP = () => {
 
   useEffect(() => {
     const getLocalIP = () => {
-      window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+      const RTCPeerConnection = 
+        window.RTCPeerConnection || 
+        window.mozRTCPeerConnection || 
+        window.webkitRTCPeerConnection;
+      
+      if (!RTCPeerConnection) {
+        console.warn("RTCPeerConnection is not supported by your browser");
+        return;
+      }
+
       const pc = new RTCPeerConnection({ iceServers: [] });
       pc.createDataChannel(""); // create a bogus data channel
-      pc.createOffer().then((offer) => pc.setLocalDescription(offer));
+      pc.createOffer()
+        .then((offer) => pc.setLocalDescription(offer))
+        .catch((error) => console.error("Error creating offer: ", error));
+
       pc.onicecandidate = (ice) => {
         if (ice && ice.candidate && ice.candidate.candidate) {
-          const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
-          setIp(myIP);
-          pc.onicecandidate = () => {};
+          const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
+          if (myIP) {
+            setIp(myIP[1]);
+            pc.onicecandidate = null;
+          }
         }
       };
     };
@@ -67,7 +80,14 @@ const Ipform = () => {
         status: 'true',
       });
       toast({
-        title: "Congratulations !!, ........",
+        title: "Congratulations!!",
+        description: "You have entered the correct IP address.",
+      });
+    } else {
+      toast({
+        title: "Incorrect IP",
+        description: "Please try again.",
+        status: "error",
       });
     }
   };
@@ -85,7 +105,7 @@ const Ipform = () => {
                 <Input className="bg-transparent text-white" placeholder="172.25.96.1" {...field} />
               </FormControl>
               <FormDescription>
-                Enter IP 🤔🤔.
+                Enter your IP 🤔🤔.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -101,7 +121,7 @@ const Ipform = () => {
                 {value ? (
                   <>
                     <Badge>{value}</Badge>
-                    <p className="text-sm text-muted-foreground">*Notedown</p>
+                    <p className="text-sm text-muted-foreground">*Note it down</p>
                   </>
                 ) : (
                   <>👎</>
