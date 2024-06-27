@@ -28,32 +28,36 @@ const useLocalIP = () => {
   const [ip, setIp] = useState("");
 
   useEffect(() => {
-    const getLocalIP = () => {
-      const RTCPeerConnection = 
-        window.RTCPeerConnection || 
-        window.mozRTCPeerConnection || 
-        window.webkitRTCPeerConnection;
-      
-      if (!RTCPeerConnection) {
-        console.warn("RTCPeerConnection is not supported by your browser");
-        return;
-      }
-
-      const pc = new RTCPeerConnection({ iceServers: [] });
-      pc.createDataChannel(""); // create a bogus data channel
-      pc.createOffer()
-        .then((offer) => pc.setLocalDescription(offer))
-        .catch((error) => console.error("Error creating offer: ", error));
-
-      pc.onicecandidate = (ice) => {
-        if (ice && ice.candidate && ice.candidate.candidate) {
-          const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
-          if (myIP) {
-            setIp(myIP[1]);
-            pc.onicecandidate = null;
-          }
+    const getLocalIP = async () => {
+      try {
+        const RTCPeerConnection = 
+          window.RTCPeerConnection || 
+          window.mozRTCPeerConnection || 
+          window.webkitRTCPeerConnection;
+        
+        if (!RTCPeerConnection) {
+          console.warn("RTCPeerConnection is not supported by your browser");
+          return;
         }
-      };
+
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        pc.createDataChannel(""); // create a bogus data channel
+        pc.createOffer()
+          .then((offer) => pc.setLocalDescription(offer))
+          .catch((error) => console.error("Error creating offer: ", error));
+
+        pc.onicecandidate = (ice) => {
+          if (ice && ice.candidate && ice.candidate.candidate) {
+            const match = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
+            if (match) {
+              setIp(match[1]);
+              pc.onicecandidate = null;
+            }
+          }
+        };
+      } catch (error) {
+        console.error("Error getting local IP address: ", error);
+      }
     };
 
     getLocalIP();
