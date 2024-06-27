@@ -31,27 +31,37 @@ const Ipform = () => {
     const [value, setValue] = useState('')
   const [ip, setIp] = useState(null);
 
-  useEffect(() => {
-    const getLocalIP = () => {
-      const pc = new RTCPeerConnection({ iceServers: [] });
-      const noop = () => {};
-      pc.createDataChannel('');
-      pc.createOffer()
-        .then((sdp) => pc.setLocalDescription(sdp))
-        .catch((err) => console.error(err));
-      pc.onicecandidate = (event) => {
-        if (event && event.candidate && event.candidate.candidate) {
-          const candidate = event.candidate.candidate;
-          const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-          const extractedIP = ipRegex.exec(candidate)[0];
-          setIp(extractedIP);
-          pc.onicecandidate = noop;
-        }
+  const useLocalIP = () => {
+    const [ip, setIp] = useState(null);
+  
+    useEffect(() => {
+      const getLocalIP = () => {
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        const noop = () => {};
+        pc.createDataChannel('');
+        pc.createOffer()
+          .then((sdp) => pc.setLocalDescription(sdp))
+          .catch((err) => {
+            console.error('Error creating offer:', err);
+          });
+        pc.onicecandidate = (event) => {
+          if (event && event.candidate && event.candidate.candidate) {
+            const candidate = event.candidate.candidate;
+            const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
+            const extractedIP = ipRegex.exec(candidate);
+            if (extractedIP) {
+              setIp(extractedIP[0]);
+            }
+            pc.onicecandidate = noop;
+          }
+        };
       };
-    };
-
-    getLocalIP();
-  }, []);
+  
+      getLocalIP();
+    }, []);
+  
+    return ip;
+  };
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
