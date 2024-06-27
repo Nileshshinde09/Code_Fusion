@@ -20,8 +20,11 @@ import GyakkoDialog from "./gyakkoDialog.jsx"
 import GyakkoForm from "./gyakkoForm.jsx"
 import ResultTable from "./resultTable.jsx"
 import ComplitionForm from "./complitionForm.jsx"
-
+import KodoDialog from "./kodoDilog.jsx"
+import KodoForm from "./kodoForm.jsx"
 export {
+    KodoForm,
+    KodoDialog,
     ComplitionForm,
     ResultTable,
     GyakkoForm,

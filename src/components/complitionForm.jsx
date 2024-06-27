@@ -14,19 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import NinjaStart from "@/assets/Applogo/ninja-star.png";
-import { FUSION_AUTH_STORE, TASK_ENUM } from "@/constants";
+import { FINALPASSWORD,TASK_ENUM } from "@/constants";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/app/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { complition } from "@/app/slices/authSlice";
 import { StoreState } from "@/services";
 import HintDialog from "./HintDialog";
-import HintImg from "@/assets/Applogo/hint.png";
 import { useState } from "react";
 import { ArrowLeftIcon,ArrowRightIcon } from "lucide-react";
+
 const FormSchema = z.object({
-    teamName: z.string().min(2, {
-        message: "Team name must be at least 2 characters.",
-    }),
     password: z.string().min(6, {
         message: "Password must be at least 6 characters.",
     }),
@@ -52,20 +49,17 @@ const ComplitionForm = () => {
         },
     });
     const onSubmit = (data) => {
-        if (FUSION_AUTH_STORE.get(data.teamName) === data.password) {
-            if (localStorage.getItem(data.teamName) === data.password) {
-                dispatch(login(data))
-                StoreState.tasks(TASK_ENUM.END, {
-                    status: 'true'
-                })
-                toast({
-                    title: "Authenticated successfully! 😎😎",
-                });
-                navigate('/DekodoSuru');
-            }
+       console.log(data);
+        if(data.password===FINALPASSWORD){
+        dispatch(complition())
+        StoreState.tasks(TASK_ENUM.END,{})
+        toast({
+            title: "Congratulation!!......",
+        });
         } else {
             toast({
-                title: "Wrong password! 🤔🤔😭😭",
+                title: "Wrong password! 🤔🤔😭😭.",
+                variant: "destructive"
             });
         }
     };

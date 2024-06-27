@@ -34,6 +34,7 @@ const GyakkoForm = () => {
     });
 
     const onSubmit = (data) => {
+        console.log(data);
         if (data.ans === GYAKKO_PASSWORD) {
             setValue("musicandcode")
             StoreState.tasks(TASK_ENUM.TASK_5,{

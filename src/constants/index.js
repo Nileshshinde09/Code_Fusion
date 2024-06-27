@@ -30,11 +30,23 @@ const TASK_ENUM= Object.freeze(
     END:"End"
   }
 )
-
+const TASKS= 
+  [
+    'Login', 
+    'DekodoSuru_1',
+    'Kodotesuta_2',
+    "IPKogeki_3",
+    "Mitsukeyou_4",
+    "GyakkoSuru_5",
+    "End"
+  ]
 const DEKODOSURU_PASSWORD = 'python'
-const MITSUKEYOU_PASSWORD = 'stackoverflow'
-const GYAKKO_PASSWORD = 'musicandcode'
-
+const MITSUKEYOU_PASSWORD = 'boy'
+const GYAKKO_PASSWORD = 'stackoverflow'
+const CODOTESUTA_PASSWORD='triangle'
+const FINALPASSWORD='nick1234'
+const QUIZZURL='https://medium.com/@nileshshindeofficial'
+const POINTS_FOR_TASKS=5
 const FUSION_AUTH_STORE = new Map([
   ["CodeWarriors", "aB1@xaB1@x"],
   ["ByteMasters", "zY3#mzY3#m"],
@@ -67,7 +79,9 @@ const STORE_STATE_ENUM = Object.freeze(
 
 export {
   PAGE_LIST,
+  TASKS,
   GYAKKO_PASSWORD,
+  CODOTESUTA_PASSWORD,
   MITSUKEYOU_PASSWORD,
   STORE_STATE_ENUM,
   DEKODOSURU_PASSWORD,
@@ -82,4 +96,7 @@ export {
   cpp,
   csh,
   java,
+  FINALPASSWORD,
+  QUIZZURL,
+  POINTS_FOR_TASKS
 } 

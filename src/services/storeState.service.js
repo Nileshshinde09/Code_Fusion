@@ -1,4 +1,4 @@
-import { STORE_STATE_ENUM } from "@/constants";
+import { STORE_STATE_ENUM, TASK_ENUM ,TASKS} from "@/constants";
 class storeState{
     login=(key,payload)=>{
         try {
@@ -38,9 +38,15 @@ class storeState{
             return false
         }
     }
-    getWinnerDashboard=({teamName})=>{
+    getWinnerDashboard=(teamName)=>{
         try {
-
+            const arr=[]
+            TASKS.map((val,i)=>{
+                arr.push(
+                    JSON.parse(localStorage.getItem(val))
+                )
+            })
+            return arr;
         } catch (error) {
             console.log(error.message || "Something went wrong while fetching data from store.");
             return false

@@ -33,7 +33,6 @@ const IPKogeki = () => {
     useEffect(() => {
         dispatch(setBG())
         if(StoreState.getTaskComplition(TASK_ENUM.TASK_3)){
-
             if(StoreState.getTaskComplition(TASK_ENUM.TASK_3).status !== 'true'){
                 StoreState.tasks(TASK_ENUM.TASK_3,{
                     status:'false'

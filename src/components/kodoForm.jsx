@@ -13,10 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import NinjaStart from "@/assets/Applogo/ninja-star.png";
-import { DEKODOSURU_PASSWORD, FUSION_AUTH_STORE, TASK_ENUM } from "@/constants";
+import { CODOTESUTA_PASSWORD, DEKODOSURU_PASSWORD, TASK_ENUM } from "@/constants";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { StoreState } from "@/services";
 
@@ -27,31 +26,8 @@ const FormSchema = z.object({
 
 });
 
-const Ipform = () => {
+const kodoForm = () => {
     const [value, setValue] = useState('')
-  const [ip, setIp] = useState(null);
-
-  useEffect(() => {
-    const getLocalIP = () => {
-      const pc = new RTCPeerConnection({ iceServers: [] });
-      const noop = () => {};
-      pc.createDataChannel('');
-      pc.createOffer()
-        .then((sdp) => pc.setLocalDescription(sdp))
-        .catch((err) => console.error(err));
-      pc.onicecandidate = (event) => {
-        if (event && event.candidate && event.candidate.candidate) {
-          const candidate = event.candidate.candidate;
-          const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-          const extractedIP = ipRegex.exec(candidate)[0];
-          setIp(extractedIP);
-          pc.onicecandidate = noop;
-        }
-      };
-    };
-
-    getLocalIP();
-  }, []);
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,11 +36,11 @@ const Ipform = () => {
   });
 
   const onSubmit = (data) => {
-    if(data.ans===ip){
-        setValue('striver')
-        StoreState.tasks(TASK_ENUM.TASK_3,{
+    if(data.ans===CODOTESUTA_PASSWORD){
+        setValue('1234')
+        StoreState.tasks(TASK_ENUM.TASK_2,{
           status:'true'
-        })
+      })
         toast({
             title:"Congratulations !!, ........"
         })
@@ -82,10 +58,10 @@ const Ipform = () => {
             <FormItem>
               <FormLabel className="text-gray-400">Answer</FormLabel>
               <FormControl>
-                <Input className="bg-transparent text-white" placeholder="172.25.96.1" {...field} />
+                <Input className="bg-transparent text-white" placeholder="...." {...field} />
               </FormControl>
               <FormDescription>
-                Enter Ip 🤔🤔.
+                Enter answer 🤔🤔.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -118,4 +94,4 @@ const Ipform = () => {
   );
 };
 
-export default Ipform;
+export default kodoForm;

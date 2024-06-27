@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Loading, SmokeComponent, LobbyInputForm, DekodosuruDialog, HintDialog, MitDialog } from '@/components'
+import { Loading,GyakkoDialog , HintDialog } from '@/components'
 import { useToast } from '@/components/ui/use-toast';
 import NinjaStart from "@/assets/Applogo/ninja-star.png"
 import Meme from "@/assets/Applogo/meme.jpg"
@@ -77,9 +77,9 @@ const GyakkoSuru = () => {
                         />
                         <a href={audio} download>Download audio</a>
                         <div className='my-5 space-y-3'>
-                            <MitDialog>
+                            <GyakkoDialog>
                                 <Button className="w-full bg-pink-300">Get Password</Button>
-                            </MitDialog>
+                            </GyakkoDialog>
                             <div className='flex justify-between'>
                                 <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
                                 <HintDialog

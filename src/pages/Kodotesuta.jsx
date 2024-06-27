@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Loading, SmokeComponent, LobbyInputForm, DekodosuruDialog, HintDialog } from '@/components';
+import { Loading, HintDialog, KodoDialog } from '@/components';
 import { useToast } from '@/components/ui/use-toast';
 import NinjaStart from "@/assets/Applogo/ninja-star.png";
-import { Card, CardContent } from "@/components/ui/card";
 import {
     Carousel,
     CarouselContent,
@@ -28,6 +27,7 @@ import { useDispatch } from 'react-redux';
 import { setfinalRoundBG } from '@/app/slices/bgSlice';
 import HintImg from "@/assets/Applogo/hint.png";
 import { StoreState } from '@/services';
+
 const Kodotesuta = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -49,7 +49,6 @@ const Kodotesuta = () => {
     useEffect(() => {
         dispatch(setfinalRoundBG());
         if(StoreState.getTaskComplition(TASK_ENUM.TASK_2)){
-
             if(StoreState.getTaskComplition(TASK_ENUM.TASK_2).status !== 'true'){
                 StoreState.tasks(TASK_ENUM.TASK_2,{
                     status:'false'
@@ -107,9 +106,9 @@ const Kodotesuta = () => {
                             <CarouselNext />
                         </Carousel>
                         <div className='my-5 space-y-3'>
-                            <DekodosuruDialog>
+                            <KodoDialog>
                                 <Button className="w-full bg-green-200">Get Password</Button>
-                            </DekodosuruDialog>
+                            </KodoDialog>
                             <div className='flex justify-between'>
                                 <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
                                 <HintDialog
