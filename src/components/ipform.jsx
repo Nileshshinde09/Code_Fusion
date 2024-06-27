@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import NinjaStart from "@/assets/Applogo/ninja-star.png";
 import { DEKODOSURU_PASSWORD, FUSION_AUTH_STORE, TASK_ENUM } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -24,44 +23,36 @@ const FormSchema = z.object({
   ans: z.string().min(2, {
     message: "Answer must be at least 2 characters.",
   }),
-
 });
 
-const Ipform = () => {
-    const [value, setValue] = useState('')
-  const [ip, setIp] = useState(null);
+const useLocalIP = () => {
+  const [ip, setIp] = useState("");
 
-  const useLocalIP = () => {
-    const [ip, setIp] = useState(null);
-  
-    useEffect(() => {
-      const getLocalIP = () => {
-        const pc = new RTCPeerConnection({ iceServers: [] });
-        const noop = () => {};
-        pc.createDataChannel('');
-        pc.createOffer()
-          .then((sdp) => pc.setLocalDescription(sdp))
-          .catch((err) => {
-            console.error('Error creating offer:', err);
-          });
-        pc.onicecandidate = (event) => {
-          if (event && event.candidate && event.candidate.candidate) {
-            const candidate = event.candidate.candidate;
-            const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-            const extractedIP = ipRegex.exec(candidate);
-            if (extractedIP) {
-              setIp(extractedIP[0]);
-            }
-            pc.onicecandidate = noop;
-          }
-        };
+  useEffect(() => {
+    const getLocalIP = () => {
+      window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+      const pc = new RTCPeerConnection({ iceServers: [] });
+      pc.createDataChannel(""); // create a bogus data channel
+      pc.createOffer().then((offer) => pc.setLocalDescription(offer));
+      pc.onicecandidate = (ice) => {
+        if (ice && ice.candidate && ice.candidate.candidate) {
+          const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
+          setIp(myIP);
+          pc.onicecandidate = () => {};
+        }
       };
-  
-      getLocalIP();
-    }, []);
-  
-    return ip;
-  };
+    };
+
+    getLocalIP();
+  }, []);
+
+  return ip;
+};
+
+const Ipform = () => {
+  const [value, setValue] = useState('');
+  const ip = useLocalIP();
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -70,15 +61,14 @@ const Ipform = () => {
   });
 
   const onSubmit = (data) => {
-    if(data.ans===ip){
-        setValue('striver')
-        StoreState.tasks(TASK_ENUM.TASK_3,{
-          status:'true'
-        })
-        toast({
-            title:"Congratulations !!, ........"
-        })
-
+    if (data.ans === ip) {
+      setValue('striver');
+      StoreState.tasks(TASK_ENUM.TASK_3, {
+        status: 'true',
+      });
+      toast({
+        title: "Congratulations !!, ........",
+      });
     }
   };
 
@@ -95,7 +85,7 @@ const Ipform = () => {
                 <Input className="bg-transparent text-white" placeholder="172.25.96.1" {...field} />
               </FormControl>
               <FormDescription>
-                Enter Ip 🤔🤔.
+                Enter IP 🤔🤔.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -104,24 +94,25 @@ const Ipform = () => {
         <FormField
           control={form.control}
           name="text"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
-              <FormLabel className="text-gray-400">Your Clue : </FormLabel>
+              <FormLabel className="text-gray-400">Your Clue:</FormLabel>
               <FormControl>
-              {value ?<>
-              <Badge>{value}</Badge>
-              <p className="text-sm text-muted-foreground">*Notedown</p>
-              </>:<>👎</>}
-              
+                {value ? (
+                  <>
+                    <Badge>{value}</Badge>
+                    <p className="text-sm text-muted-foreground">*Notedown</p>
+                  </>
+                ) : (
+                  <>👎</>
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button className="w-full" type="submit">
-          <p className="text-xl ">
-            Enter 
-          </p>
+          <p className="text-xl">Enter</p>
         </Button>
       </form>
     </Form>
