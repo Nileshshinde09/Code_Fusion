@@ -23,7 +23,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { PAGE_LIST } from '@/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setfinalRoundBG } from '@/app/slices/bgSlice';
 import HintImg from "@/assets/Applogo/hint.png";
 import { StoreState } from '@/services';
@@ -37,7 +37,7 @@ const Kodotesuta = () => {
     const [teamName, setTeamName] = useState('');
     const [Prev, setPrev] = useState(false);
     const [Next, setNext] = useState(false);
-
+    const teamdata = useSelector((state)=>state.auth.userData)
     const nextHandler = () => {
         navigate('/' + PAGE_LIST[PAGE_LIST.indexOf(pathname.split('/')[1]) + 1]);
     };
@@ -81,7 +81,7 @@ const Kodotesuta = () => {
                             Code Fusion <br />
                             <div className='flex'>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
-                                <h1 className='text-gray-400'>{teamName || 'Strivers'}</h1>
+                                <h1 className='text-gray-400'>{teamdata.teamName}</h1>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
                             </div>
                         </h1>
@@ -107,13 +107,13 @@ const Kodotesuta = () => {
                         </Carousel>
                         <div className='my-5 space-y-3'>
                             <KodoDialog>
-                                <Button className="w-full bg-green-200">Get Password</Button>
+                                <Button className="w-full bg-green-200">Get Clue</Button>
                             </KodoDialog>
                             <div className='flex justify-between'>
                                 <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
                                 <HintDialog
                                     heading={'Hint 💡'}
-                                    desc={'Kuch hint nahi hai , is task ke liye 😶😶'}
+                                    desc={'There are so many online compilers.'}
                                 >
                                     <Button>
                                         <img src={HintImg} className='w-20 mt-2' />

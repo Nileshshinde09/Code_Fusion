@@ -10,7 +10,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { PAGE_LIST, TASK_ENUM } from '@/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setBG } from '@/app/slices/bgSlice';
 import audio from "@/assets/audio/audio.mp3"
 import audiogif from "@/assets/Applogo/audio.gif"
@@ -24,6 +24,7 @@ const GyakkoSuru = () => {
     const { pathname } = useLocation()
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false)
+    const teamdata = useSelector((state)=>state.auth.userData)
     const [teamName, setTeamName] = useState('')
     const [Prev, setPrev] = useState(false)
     const [Next, setNext] = useState(false)
@@ -48,7 +49,7 @@ const GyakkoSuru = () => {
             })
         }
         toast({
-            title: "Task two is to find right pattern with programming knowledge."
+            title: "Task four is to find answer from audio."
         })
     }, [])
     return (
@@ -60,7 +61,7 @@ const GyakkoSuru = () => {
                             Code Fusion <br />
                             <div className='flex'>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
-                                <h1 className='text-gray-400'>{teamName || 'Strivers'}</h1>
+                                <h1 className='text-gray-400'>{teamdata.teamName}</h1>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
                             </div>
                         </h1>
@@ -78,13 +79,13 @@ const GyakkoSuru = () => {
                         <a href={audio} download>Download audio</a>
                         <div className='my-5 space-y-3'>
                             <GyakkoDialog>
-                                <Button className="w-full bg-pink-300">Get Password</Button>
+                                <Button className="w-full bg-pink-300">Get Clue</Button>
                             </GyakkoDialog>
                             <div className='flex justify-between'>
                                 <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
                                 <HintDialog
                                     heading={'Hint 💡'}
-                                    desc={'reverse. 🚶‍♀️🚶‍♂️🚶🏃‍♀️🏃‍♂️🏃'}
+                                    desc={'rvrs. 🚶‍♀️🚶‍♂️🚶🏃‍♀️🏃‍♂️🏃'}
                                 >
                                                                        <Button>
                                         <img src={HintImg} className='w-20 mt-2' />

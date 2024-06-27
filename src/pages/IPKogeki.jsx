@@ -10,7 +10,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { PAGE_LIST, TASK_ENUM } from '@/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setBG } from '@/app/slices/bgSlice';
 import IpDialog from '@/components/ipDialog';
 import HintImg from "@/assets/Applogo/hint.png";
@@ -19,9 +19,9 @@ const IPKogeki = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { pathname } = useLocation()
+    const teamdata = useSelector((state)=>state.auth.userData)
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false)
-    const [teamName, setTeamName] = useState('')
     const [Prev, setPrev] = useState(false)
     const [Next, setNext] = useState(false)
     const nextHandler = () => {
@@ -44,7 +44,7 @@ const IPKogeki = () => {
             })
         }
         toast({
-            title: "Task two is to find right pattern with programming knowledge."
+            title: "Task three is to find ip address of your computer system."
         })
     }, [])
     return (
@@ -56,7 +56,7 @@ const IPKogeki = () => {
                             Code Fusion <br />
                             <div className='flex'>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
-                                <h1 className='text-gray-400'>{teamName || 'Strivers'}</h1>
+                                <h1 className='text-gray-400'>{teamdata.teamName }</h1>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
                             </div>
                         </h1>
@@ -68,7 +68,7 @@ const IPKogeki = () => {
                         <img src={IPInfograph} className='mx-auto rounded-3xl -mt-5' alt="" />
                         <div className='my-5 space-y-3'>
                             <IpDialog>
-                                <Button className="w-full bg-yellow-300">Get Password</Button>
+                                <Button className="w-full bg-yellow-300">Get Clue</Button>
                             </IpDialog>
                             <div className='flex justify-between'>
                                 <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
@@ -76,7 +76,7 @@ const IPKogeki = () => {
                                 heading={'Hint 💡 to get IP Address.'}
                                 desc={'kuch bhi kar bro , muze Ip chahiye 😏.\n Ek bata sakta hue , cmd se kuch ho sakta hai 🤔.'} 
                                 >
-                                                                        <Button>
+                                <Button>
                                         <img src={HintImg} className='w-20 mt-2' />
                                     </Button>
                                 </HintDialog>

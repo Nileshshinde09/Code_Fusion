@@ -10,7 +10,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { PAGE_LIST, TASK_ENUM } from '@/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setBG } from '@/app/slices/bgSlice';
 import HintImg from "@/assets/Applogo/hint.png";
 import { StoreState } from '@/services';
@@ -22,6 +22,7 @@ const Mitsukeyou = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [teamName, setTeamName] = useState('')
     const [Prev, setPrev] = useState(false)
+    const teamdata = useSelector((state)=>state.auth.userData)
     const [Next, setNext] = useState(false)
     const nextHandler = () => {
         navigate('/' + PAGE_LIST[PAGE_LIST.indexOf(pathname.split('/')[1]) + 1])
@@ -44,7 +45,7 @@ const Mitsukeyou = () => {
             })
         }
         toast({
-            title: "Task two is to find right pattern with programming knowledge."
+            title: "Task four is to find word."
         })
     }, [])
     return (
@@ -56,7 +57,7 @@ const Mitsukeyou = () => {
                             Code Fusion <br />
                             <div className='flex'>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
-                                <h1 className='text-gray-400'>{teamName || 'Strivers'}</h1>
+                                <h1 className='text-gray-400'>{teamdata.teamName }</h1>
                                 <img className="h-10 mx-2 mt-2 animate-spin [animation-duration:5s]" src={NinjaStart} alt="Ninja Star" />
                             </div>
                         </h1>
