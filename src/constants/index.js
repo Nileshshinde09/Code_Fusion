@@ -44,7 +44,7 @@ const DEKODOSURU_PASSWORD = 'python'
 const MITSUKEYOU_PASSWORD = 'boy'
 const GYAKKO_PASSWORD = 'stackoverflow'
 const CODOTESUTA_PASSWORD='triangle'
-const FINALPASSWORD='nick1234'
+const FINALPASSWORD='lsf98sd_11011_striver_ninja_musicandcode'
 const QUIZZURL='https://quizizz.com/pro/join'
 const POINTS_FOR_TASKS=5
 const FUSION_AUTH_STORE = new Map([
@@ -100,3 +100,4 @@ export {
   QUIZZURL,
   POINTS_FOR_TASKS
 } 
+

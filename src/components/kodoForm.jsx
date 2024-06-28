@@ -37,7 +37,7 @@ const kodoForm = () => {
 
   const onSubmit = (data) => {
     if(data.ans===CODOTESUTA_PASSWORD){
-        setValue('1234')
+        setValue('11011')
         StoreState.tasks(TASK_ENUM.TASK_2,{
           status:'true'
       })
