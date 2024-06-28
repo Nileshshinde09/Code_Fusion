@@ -94,7 +94,7 @@ const ComplitionForm = () => {
                     <Button disabled={Prev}><div onClick={prevHandler} className='flex space-x-2 items-center'><ArrowLeftIcon /><h1>Prev</h1></div></Button>
                     <HintDialog
                         heading={'Hint 💡'}
-                        desc={'Enter password that you get throughout the task combine it and enter.\n For eg. if your password is java storage 0&$\n then enter java_storage_0&$'}
+                        desc={'Enter password that you get throughout the task combine it and enter.\n For eg. if your password is java,storage,0&$\n then enter java_storage_0&$'}
                     >
                         <Button>
                             {/* <img src={HintImg} className='' /> */}
