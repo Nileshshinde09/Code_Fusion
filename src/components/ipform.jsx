@@ -76,9 +76,13 @@ const Ipform = () => {
       ans: "",
     },
   });
+  function isValidIP(ip) {
+    const pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
+    return pattern.test(ip);
+}
   const onSubmit = (data) => {
-    if (data.ans === ip) {
+    if (data.ans === ip || isValidIP(String(data.ans))) {
       setValue('striver');
       StoreState.tasks(TASK_ENUM.TASK_3, {
         status: 'true',
