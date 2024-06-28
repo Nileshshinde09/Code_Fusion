@@ -110,7 +110,7 @@ const Ipform = () => {
             <FormItem>
               <FormLabel className="text-gray-400">Answer</FormLabel>
               <FormControl>
-                <Input className="bg-transparent text-white" placeholder="172.25.96.1" {...field} />
+                <Input className="bg-transparent text-white" placeholder="...." {...field} />
               </FormControl>
               <FormDescription>
                 Enter your IP 🤔🤔.
